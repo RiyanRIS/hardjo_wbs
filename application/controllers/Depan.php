@@ -22,6 +22,30 @@ class Depan extends CI_Controller {
     $this->load->view('buat');	
 	}
 
+	public function detail()
+	{
+		$pengaduan_jenis = $this->session->userdata('pengaduan')['pengaduan_jenis'];
+		$pengaduan2 = [
+			'pengaduan_jenis_baca' => jenis_gen($pengaduan_jenis),
+		];
+
+		$data = [
+			'pengaduan2' => $pengaduan2,
+			'pengaduan' => $this->session->userdata('pengaduan'),
+		];
+		$this->load->view('detail', $data);
+	}
+
+	public function pantau($kode = null)
+	{
+		$data = [];
+		if($kode != null){
+			$data['pengaduan'] = $this->pengaduan->findByKode($kode);
+		}
+		$data['kode'] = $kode;
+		$this->load->view('pantau', $data);
+	}
+
 	function action($param = 'buat')
   {
     $post = $this->input->post(null, true);
@@ -33,9 +57,9 @@ class Depan extends CI_Controller {
 
       if($_FILES['pengaduan_berkas']){
 				for ($i=0; $i < count($_FILES['pengaduan_berkas']); $i++) {
-					$ukuran_file = $_FILES['pengaduan_berkas'][$i]['size']; 
+					$ukuran_file = $_FILES['pengaduan_berkas']['size']; 
 					if($ukuran_file <= 25000000){
-						$nama_file = $_FILES['pengaduan_berkas'][$i]['name'];
+						$nama_file = $_FILES['pengaduan_berkas']['name'];
 						$newName = $post['pengaduan_kode'].".".pathinfo($nama_file, PATHINFO_EXTENSION); 
 						$format = pathinfo($nama_file, PATHINFO_EXTENSION); 
 						if( ($format == "jpg") or ($format == "jpeg") or ($format == "png") or ($format == "JPG") or ($format == "JPEG") or ($format == "PNG")or ($format == "doc") or ($format == "pdf") or ($format == "zip") ){
@@ -77,11 +101,15 @@ class Depan extends CI_Controller {
 				}
       }
 
-      if($this->PengaduanModel->insert($post)){
+      if($this->pengaduan->insert($post)){
         $this->session->set_flashdata('msg', [1, "Data berhasil ditambahkan"]);
+        $userdata = [
+					'pengaduan' => $post
+				];
+				$this->session->set_userdata($userdata);
         $msg = [
           'status' => true, 
-          'url' => site_url("pengaduan")
+          'url' => site_url("detail")
         ];
       } else {
         $msg = [

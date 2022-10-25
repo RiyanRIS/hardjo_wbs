@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                <form method="post" controller="<?=site_url('depan')?>" action="buat" id="myForm" enctype="multipart/form-data" accept-charset="utf-8">
+                <form method="post" controller="<?=site_url('depan')?>" action="buat" id="myForm22" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="contact-form">
@@ -74,9 +74,15 @@
                           <textarea name="pengaduan_deskripsi" id="pengaduan_deskripsi" cols="10" rows="5" required="true" class="text" placeholder="Tulis aduan anda disini...."></textarea>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <!-- <div class="col-lg-12">
                         <div class="contact-form">
                         <input type="file" class="text" name="pengaduan_berkas[]" multiple="true" placeholder="Subjek Aduan" autocomplete="off" required="true">
+                        <span style="color: #373737;font-weight: 300;">.jpg .png .jpeg .zip .pdf</span>
+                        </div>
+                    </div> -->
+                    <div class="col-lg-12">
+                        <div class="contact-form">
+                        <input type="file" class="text" name="pengaduan_berkas" placeholder="Subjek Aduan" autocomplete="off" required="true">
                         <span style="color: #373737;font-weight: 300;">.jpg .png .jpeg .zip .pdf</span>
                         </div>
                     </div>
@@ -92,4 +98,95 @@
             </div>
         </section>
 
-<?php $this->load->view("_template/foot.php"); ?>    
+<?php $this->load->view("_template/foot.php"); ?>   
+
+<script>
+  $('#myForm22').submit(function(e){
+        e.preventDefault()
+        var dataToSend  = new FormData(this)
+        var formId = $(this)
+        var action = $(formId).attr('action')
+        var controller = $(formId).attr('controller')
+
+        $.ajax({
+            url      : controller+'/action/'+action,
+            dataType : 'json',
+            type     : 'post',
+            data     : dataToSend,
+            processData :false,
+            contentType :false,
+            cache       :false,
+            beforeSend:function(){
+                $('#loading').show()
+            },
+            complete:function(){
+                $('#loading').hide()
+            },
+            success  : function(data){
+                // console.log(data)
+                // $('#pesan_notifikasi div').remove()
+                $('.invalid-feedback').remove()
+                $('.is-invalid').removeClass('is-invalid');
+
+                if(typeof(data.file) != "undefined" && data.file !== null){
+                    if(data.file == false){
+                        $.each(data.error_file, function(key, value){
+                            $('#'+key).addClass('is-invalid')
+                            $('#notifikasi_'+key).append(`<div class="invalid-feedback">`+value+`</div>`)
+                        })
+                    }else{
+                        $.each(data.error_file, function(key, value){
+                            $('#'+key).removeClass('is-invalid')
+                            $('#notifikasi_'+key).append('')
+                        })
+                    }
+                }else{
+                    if(data.status){
+                        window.location.replace(data.url);
+                    }else{
+                        if(data.errors){
+                            $.each(data.errors, function(key, value){
+                                $('#'+key).addClass('is-invalid')
+
+                                Swal.fire({
+        title: 'Terjadi kesalahan!',
+        text: value,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+                                // $('#notifikasi_'+key).append(`<div class="invalid-feedback">`+value+`</div>`)
+                            })
+                        }else{
+
+                            if(data.status == false){
+                                $.confirm({
+                                    title: 'errors',
+                                    content: 'Terjadi kesalahan sistem, silahkan coba kembali',
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        tryAgain: {
+                                            text: 'Oke',
+                                            btnClass: 'btn-red',
+                                            action: function(){
+                                                $('#loading').hide()
+                                            }
+                                        },
+                                        close: function () {
+                                                $('#loading').hide()
+                                        }
+                                    }
+                                });
+                            }
+                            $.each(data.errors, function(key, value){
+                                $('#'+key).removeClass('is-invalid')
+                                $('#notifikasi_'+key).append('')
+                            })
+                        }
+                        $('html,body').animate({scrollTop: $('body').offset().top},'fast');
+                    }
+                }
+            }
+        })
+    })
+</script>

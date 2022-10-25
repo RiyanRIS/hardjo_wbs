@@ -35,6 +35,17 @@ class PengaduanModel extends CI_Model {
     }
   }
 
+  public function findByKode($kode)
+  {
+    $query = "SELECT * FROM wbs_pengaduan WHERE pengaduan_kode = '$kode'";
+    $data = $this->db->query($query);
+    if($data){
+      return $data->result_array();
+    } else {
+      return null;
+    }
+  }
+
   public function insert($post)
   {
     return $this->db->insert('wbs_pengaduan', $post);

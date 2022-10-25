@@ -23,6 +23,8 @@
       
         <script src="<?=base_url()?>assets/js/jquery-3.3.1.min.js"></script>
         <script src="//rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+
         <script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
         <script src="<?=base_url()?>assets/js/owl.carousel.min.js"></script>
         <script src="<?=base_url()?>assets/js/jquery.fancybox.min.js"></script>
@@ -133,4 +135,5 @@ if($this->session->flashdata('msg')){
 
     </body>
 
-</html>
+
+    </html>

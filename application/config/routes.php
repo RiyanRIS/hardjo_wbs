@@ -58,7 +58,9 @@ $route['login'] = 'auth/login';
 $route['registrasi'] = 'auth/registrasi';
 
 $route['buat'] = 'depan/buat';
-$route['haha'] = 'depan/index';
+$route['detail'] = 'depan/detail';
+$route['pantau'] = 'depan/pantau';
+$route['pantau/(:any)'] = 'depan/pantau/$1';
 
 // $route['dropzone-upload-image'] = 'Pengaduan';
 // $route['dropzone-upload-image/post']['post'] = 'Pengaduan/simpan_pengaduan';
