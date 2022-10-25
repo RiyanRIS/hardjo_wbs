@@ -121,7 +121,9 @@
               </div>
             </div>
             <?php if(count($respon) == 0){ ?>
+              <div class="col-12">
               <p style="color:red">Belum ada respon.</p>
+              </div>
               <?php } else {?>
                 <?php foreach ($respon as $key => $value) { ?>
                 <?php if($value->respon_dari == 1){?>
