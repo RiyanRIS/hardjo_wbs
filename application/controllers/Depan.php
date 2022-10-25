@@ -9,6 +9,7 @@ class Depan extends CI_Controller {
 		$this->load->helper(array('form', 'url','file','download'));
 		$this->load->model('m_dashboard');
 		$this->load->model('PengaduanModel', 'pengaduan');
+		$this->load->model('ResponModel', 'respon');
 		$this->load->library('email','upload','session','encrypt');
 	}
 
@@ -41,6 +42,7 @@ class Depan extends CI_Controller {
 		$data = [];
 		if($kode != null){
 			$data['pengaduan'] = $this->pengaduan->findByKode($kode);
+			$data['respon'] = $this->respon->findByPengaduan($data['pengaduan'][0]['pengaduan_id']);
 		}
 		$data['kode'] = $kode;
 		$this->load->view('pantau', $data);
@@ -157,7 +159,27 @@ class Depan extends CI_Controller {
           ]
         ];
       }
-    }
+    } else if($param == 'pantau'){
+			$kode = $post['pengaduan_kode'];
+			$post['respon_id'] = $this->db->query("SELECT NEWID() as id")->row()->id;
+      $post['respon_pengaduan_id'] = $this->pengaduan->findByKode($kode)[0]['pengaduan_id'];
+      $post['respon_waktu'] = date("Y-m-d H:i:s");
+			unset($post['pengaduan_kode']);
+			if($this->respon->insert($post)){
+        $this->session->set_flashdata('msg', [1, "Berhasil menambah respon"]);
+        $msg = [
+          'status' => true, 
+          'url' => site_url("pantau/" . $kode)
+        ];
+      } else {
+        $msg = [
+          'status' => false, 
+          'errors' => [
+            "pesan" => "data gagal ditambahkan"
+          ]
+        ];
+      }
+		}
 
     echo json_encode($msg);
   }

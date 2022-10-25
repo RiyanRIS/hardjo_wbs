@@ -3,6 +3,35 @@
 .kekanan ul{
   padding-left: 20px
 }
+.respon{
+  width:70%;
+  background-color: #51b8f2;
+  margin: 10px 0px;
+  padding-top: 10px;
+}
+.respon p{
+  color: #fff;
+}
+.respon.konten-kiri{
+  border-radius: 10px 10px 10px 0px;
+}
+.respon.konten-kiri em{
+  float: right;
+  text-align: right !important;
+}
+
+.respon.konten-kanan{
+  float: right;
+  text-align: right;
+  border-radius: 10px 10px 0px 10px;
+}
+.respon.konten-kanan h5{
+  text-align: right !important;
+}
+.respon.konten-kanan em{
+  float: left;
+  text-align: left !important;
+}
 </style>
 <?php $this->load->view("_template/atas.php"); ?> 
 
@@ -36,11 +65,13 @@
         <?php if(count($pengaduan) != 0){ 
           $pengaduan = $pengaduan[0];
         ?>
+        <hr>
         <div class="col-12 mt-3">
+        <h5>Data Pengaduan</h5>
           <table class="table table-bordered">
             <tr>
               <th>Kode Aduan</th>
-              <td><strong>#<?=$pengaduan['pengaduan_kode']?></strong></td>
+              <td><strong><?=$pengaduan['pengaduan_kode']?></strong></td>
             </tr>
             <tr>
               <th>Status Aduan</th>
@@ -76,9 +107,59 @@
             </tr>
             <tr>
               <th>Berkas</th>
-              <td><?=$pengaduan['pengaduan_berkas']?></td>
+              <td><a target="_blank" style="color:#007bff" href="<?=site_url('uploads/' . $pengaduan['pengaduan_berkas'])?>"><?=$pengaduan['pengaduan_berkas']?></a></td>
             </tr>
           </table>
+         
+          <div class="mt-3">
+        <hr>
+        <div class="row">
+            <div class="col-12">
+              <h5>Respon Pengaduan</h5>
+              <div class="alert alert-primary mb-3" role="alert">
+                Anda dapat berkomunikasi dengan Admin melalui panel ini.
+              </div>
+            </div>
+            <?php if(count($respon) == 0){ ?>
+              <p style="color:red">Belum ada respon.</p>
+              <?php } else {?>
+                <?php foreach ($respon as $key => $value) { ?>
+                <?php if($value->respon_dari == 1){?>
+                  <div class="col-12">
+              <div class="card respon konten-kiri">
+                <div class="card-body">
+                  <h5>Administrator</h5>
+                  <p><?=$value->respon_komentar?></p>
+                  <em><?=date("d F Y H:i", strtotime($value->respon_waktu))?></em>
+                </div>
+              </div>
+            </div>
+                <?php } else { ?>
+                  <div class="col-12">
+              <div class="card respon konten-kanan">
+                <div class="card-body">
+                  <h5>Anda</h5>
+                  <p><?=$value->respon_komentar?></p>
+                  <em><?=date("d F Y H:i", strtotime($value->respon_waktu))?></em>
+                </div>
+              </div>
+            </div>
+                <?php } // Penutup If Admin||User ?>
+                <?php } // Penutup foreach ?>
+            <?php } // Penutup If count ?>
+
+            <div class="col-12">
+              <div class="form-respon mt-3">
+                <form method="post" controller="<?=site_url('depan')?>" action="pantau" id="myForm22" enctype="multipart/form-data" accept-charset="utf-8">
+                  <input type="hidden" name="pengaduan_kode" value="<?=$pengaduan['pengaduan_kode']?>">
+                  <textarea name="respon_komentar" id="respon_komentar" cols="10" rows="5" class="form-control" placeholder="Tulis respon pengaduan disini..."></textarea>
+                  <button class="btn mt-3" type="submit"><i class="fas fa-paper-plane"></i> Kirim</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
         <div>
         <?php } else {?>
         <div class="col-12 mt-3">
@@ -94,10 +175,21 @@
 <?php $this->load->view("_template/foot.php"); ?>
 
 <script>
-  // $.notify('tes 123', "success");
 
   $('#btn1').click(function (){
+    kerjakan()
+  })
+
+  $('#input1').focus(function (){
+    $(document).on('keypress', function(e) {
+      if(e.which == 13) {
+        kerjakan()
+      }
+    })
+  })
+
+  function kerjakan(){
     let value = $('#input1').val()
     window.location = '<?=site_url('pantau/')?>' + value
-  });
+  }
 </script>

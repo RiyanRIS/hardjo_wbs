@@ -37,8 +37,7 @@ if($this->session->flashdata('msg')){
 }
 ?>
 
-        
-$('#myForm, #myForm1, #myForm2, #myForm3').submit(function(e){
+$('#myForm22').submit(function(e){
         e.preventDefault()
         var dataToSend  = new FormData(this)
         var formId = $(this)
@@ -84,7 +83,13 @@ $('#myForm, #myForm1, #myForm2, #myForm3').submit(function(e){
                         if(data.errors){
                             $.each(data.errors, function(key, value){
                                 $('#'+key).addClass('is-invalid')
-                                $.notify(value, "danger");
+
+                                Swal.fire({
+        title: 'Terjadi kesalahan!',
+        text: value,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
                                 // $('#notifikasi_'+key).append(`<div class="invalid-feedback">`+value+`</div>`)
                             })
                         }else{
@@ -120,5 +125,4 @@ $('#myForm, #myForm1, #myForm2, #myForm3').submit(function(e){
             }
         })
     })
-
 </script>
