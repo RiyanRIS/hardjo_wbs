@@ -29,11 +29,14 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="contact-page-title">
-                            <h2>BUAT PENGADUAN</h2>
-                            <p class="text-18">Anda melihat atau mengetahui dugaan Pelanggaran yang dilakukan pegawai RSPAU dr. S. Hardjolukito. Silahkan melapor. Jika laporan anda memenuhi syarat/kriteria, maka akan diproses lebih lanjut.</p>
+                            <h3>BUAT PENGADUAN</h3>
+                            <p class="text-18">Berikut ini adalah formulir pengaduan aplikasi WBS RSPAU dr. S. Hardjolukito</p>
                         </div>
                     </div>
-                </div>
+                <div class="col-12">
+            <div class="alert alert-primary kekanan" role="alert">
+                Anda melihat atau mengetahui dugaan Pelanggaran yang dilakukan pegawai RSPAU dr. S. Hardjolukito. Silahkan melapor. Jika laporan anda memenuhi syarat/kriteria, maka akan diproses lebih lanjut.
+            </div>
                 <form method="post" controller="<?=site_url('depan')?>" action="buat" id="myForm22" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="row">
                     <div class="col-lg-6">
@@ -94,6 +97,7 @@
                       </div>
                     </div>
                     </form>
+                </div>
                 </div>
             </div>
         </section>

@@ -46,6 +46,44 @@ class Depan extends CI_Controller {
 		$this->load->view('pantau', $data);
 	}
 
+	public function statistik()
+	{
+		$data = [];
+		
+		// Diterima
+		$data['rec'][0][1] = $this->pengaduan->findStatistik(0, 1);
+		$data['rec'][0][2] = $this->pengaduan->findStatistik(0, 2);
+		$data['rec'][0][3] = $this->pengaduan->findStatistik(0, 3);
+		$data['rec'][0][4] = $this->pengaduan->findStatistik(0, 4);
+		$data['rec'][0][5] = $this->pengaduan->findStatistik(0, 5);
+		$data['rec'][0][6] = $this->pengaduan->findStatistik(0, 6);
+
+		// Ditolak
+		$data['rec'][9][1] = $this->pengaduan->findStatistik(9, 1);
+		$data['rec'][9][2] = $this->pengaduan->findStatistik(9, 2);
+		$data['rec'][9][3] = $this->pengaduan->findStatistik(9, 3);
+		$data['rec'][9][4] = $this->pengaduan->findStatistik(9, 4);
+		$data['rec'][9][5] = $this->pengaduan->findStatistik(9, 5);
+		$data['rec'][9][6] = $this->pengaduan->findStatistik(9, 6);
+
+		// Diproses
+		$data['rec'][1][1] = $this->pengaduan->findStatistik(1, 1);
+		$data['rec'][1][2] = $this->pengaduan->findStatistik(1, 2);
+		$data['rec'][1][3] = $this->pengaduan->findStatistik(1, 3);
+		$data['rec'][1][4] = $this->pengaduan->findStatistik(1, 4);
+		$data['rec'][1][5] = $this->pengaduan->findStatistik(1, 5);
+		$data['rec'][1][6] = $this->pengaduan->findStatistik(1, 6);
+
+		// Selesai
+		$data['rec'][2][1] = $this->pengaduan->findStatistik(2, 1);
+		$data['rec'][2][2] = $this->pengaduan->findStatistik(2, 2);
+		$data['rec'][2][3] = $this->pengaduan->findStatistik(2, 3);
+		$data['rec'][2][4] = $this->pengaduan->findStatistik(2, 4);
+		$data['rec'][2][5] = $this->pengaduan->findStatistik(2, 5);
+		$data['rec'][2][6] = $this->pengaduan->findStatistik(2, 6);
+		$this->load->view('statistik', $data);
+	}
+
 	function action($param = 'buat')
   {
     $post = $this->input->post(null, true);

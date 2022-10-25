@@ -61,6 +61,7 @@ $route['buat'] = 'depan/buat';
 $route['detail'] = 'depan/detail';
 $route['pantau'] = 'depan/pantau';
 $route['pantau/(:any)'] = 'depan/pantau/$1';
+$route['statistik'] = 'depan/statistik';
 
 // $route['dropzone-upload-image'] = 'Pengaduan';
 // $route['dropzone-upload-image/post']['post'] = 'Pengaduan/simpan_pengaduan';

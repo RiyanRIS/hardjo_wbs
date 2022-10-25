@@ -11,8 +11,8 @@
       <div class="row">
       <div class="col-12">
           <div class="contact-page-title">
-            <h2>Detail Aduan</h2>
-            <p class="text-18">Halaman pantau aduan</p>
+            <h3>Pantau Pengaduan</h3>
+            <p class="text-18">Anda tidak perlu LOGIN untuk mengetahui status pengaduan, cukup dengan mencarinya berdasarkan kode unik.</p>
           </div>
         </div>
         <div class="col-12">
@@ -20,7 +20,7 @@
               Berikut ini adalah informasi untuk memantau pengaduan, yaitu:
                 <ul>
                   <li>Fitur ini dapat digunakan untuk memantau tindak lanjut dari pengaduan Anda tanpa harus login sebelumnya.</li>
-                  <li>Pastikan Anda telah mengirim pengaduan sebelumnya dan telah mendapat kode unik terhadap laporan tersebut.</li>
+                  <li>Pastikan Anda telah <a href="<?=site_url('buat')?>" style="color: #007bff ; text-decoration: none;">membuat pengaduan</a> sebelumnya dan telah mendapat kode unik terhadap laporan tersebut.</li>
                   <li>Silahkan mengisi formulir pencarian di bawah ini dengan data kode unik pengaduan Anda dan lanjutkan dengan menekan tombol "Cari Pengaduan".</li>
                   <li>Jagalah kerahasiaan kode unik pengaduan Anda agar tidak disalah gunakan oleh pihak yang tidak bertanggung jawab.</li>
                 </ul>
@@ -94,6 +94,8 @@
 <?php $this->load->view("_template/foot.php"); ?>
 
 <script>
+  // $.notify('tes 123', "success");
+
   $('#btn1').click(function (){
     let value = $('#input1').val()
     window.location = '<?=site_url('pantau/')?>' + value

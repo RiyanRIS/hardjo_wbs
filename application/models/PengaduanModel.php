@@ -46,6 +46,17 @@ class PengaduanModel extends CI_Model {
     }
   }
 
+  public function findStatistik($status, $jenis)
+  {
+    $query = "SELECT * FROM wbs_pengaduan WHERE pengaduan_status = '$status' AND pengaduan_jenis = '$jenis'";
+    $data = $this->db->query($query);
+    if($data){
+      return count($data->result_array());
+    } else {
+      return 0;
+    }
+  }
+
   public function insert($post)
   {
     return $this->db->insert('wbs_pengaduan', $post);
