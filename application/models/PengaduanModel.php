@@ -24,6 +24,13 @@ class PengaduanModel extends CI_Model {
     }
   }
 
+
+    function get_all(){
+        $string = "SELECT * FROM wbs_pengaduan";
+        $record = $this->db->query($string);
+        return $record;
+    }
+
   public function findByUser($id)
   {
     $query = "SELECT * FROM wbs_pengaduan WHERE pengaduan_user_id = '$id'";

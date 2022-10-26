@@ -60,5 +60,11 @@ $route['registrasi'] = 'auth/registrasi';
 $route['buat'] = 'depan/buat';
 $route['haha'] = 'depan/index';
 
+
+
+// bagian ADMIN
+
+$route['admin'] = 'auth/admin';
+
 // $route['dropzone-upload-image'] = 'Pengaduan';
 // $route['dropzone-upload-image/post']['post'] = 'Pengaduan/simpan_pengaduan';

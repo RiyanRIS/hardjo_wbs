@@ -37,6 +37,7 @@ class AuthModel extends CI_Model {
     }
   }
 
+
   public function getError()
   {
     return $this->db->error();

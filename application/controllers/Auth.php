@@ -7,6 +7,7 @@ class Auth extends CI_Controller {
 		parent::__construct();
 		// load base_url
 		$this->load->model(['AuthModel']);
+
 	}
 
   public function login()
@@ -14,15 +15,47 @@ class Auth extends CI_Controller {
     $this->load->view('auth/login');
 	}
 
-  public function admin()
-	{
-    $this->load->view('auth/admin');
+    public function admin(){
+        $post = $this->input->post(null, true);
+        if(isset($post['login'])){
+            $username = $post['username'];
+            $password = $post['password'];
+
+            $anggota = $this->db->query("
+                SELECT * FROM wbs_admin WHERE username = '$username'
+            ")->row();
+            
+            if(empty($anggota)) {
+                $this->session->set_flashdata('danger', 'Username/Password anda salah!!!');
+                redirect(site_url('admin'),'refresh');
+            }
+
+            if(!password_verify($password, $anggota->password)) {
+                $this->session->set_flashdata('danger', 'Username/Password anda salah!!!');
+                redirect(site_url('admin'),'refresh');
+            }
+
+            // print_r("<pre>");print_r($anggota); die();
+            $data = [
+                'id_admin'      => $anggota->id,
+                'username'      => $anggota->username,
+                'isLogin'       => true,
+                'isAdmin'       => true,
+            ];
+
+            $this->session->set_userdata($data);
+            redirect('admin/dashboard','refresh');
+            die();
+        }
+        // die('a');
+        $this->load->view('auth/admin');
+
 	}
 
-  public function registrasi()
-	{
-    $this->load->view('auth/registrasi');
-	}
+    public function registrasi()
+	   {
+            $this->load->view('auth/registrasi');
+	   }
 
   public function logout()
   {

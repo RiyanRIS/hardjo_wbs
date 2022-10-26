@@ -13,15 +13,24 @@ class Pengaduan extends CI_Controller {
 		}
 	}
 
-  function index()
-  {
-    $record = $this->PengaduanModel->findByUser($this->session->userdata('user')['user_id']);
+    function index(){
+        if(@$_GET['page'] != "" || !empty($_GET['page'])) {
+            $offset = ($_GET['page'] - 1) * $SConfig->_admin_perpage;
+            $hal_aktif = $_GET['page'];
+        }else{
+            $offset     = 0;
+            $hal_aktif = 1;
+        }
+
+
+        $record = $this->PengaduanModel->get_all()->result();
+        // print_r("<pre>"); print_r($record); die();
 		$data = [
-			'title' => "List Pengaduan",
-      "record" => $record
+			'title'  => "List Pengaduan",
+            "record" => $record
 		];
-		$this->load->view('pengaduan/index', $data);
-  }
+		$this->load->view('admin/pengaduan/index', $data);
+    }
 
   public function buat()
   {
