@@ -23,6 +23,8 @@
       
         <script src="<?=base_url()?>assets/js/jquery-3.3.1.min.js"></script>
         <script src="//rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+
         <script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
         <script src="<?=base_url()?>assets/js/owl.carousel.min.js"></script>
         <script src="<?=base_url()?>assets/js/jquery.fancybox.min.js"></script>
@@ -47,7 +49,8 @@ if($this->session->flashdata('msg')){
 }
 ?>
             
-  $('#myForm, #myForm1, #myForm2, #myForm3').submit(function(e){
+  
+$('#myForm22').submit(function(e){
         e.preventDefault()
         var dataToSend  = new FormData(this)
         var formId = $(this)
@@ -93,7 +96,13 @@ if($this->session->flashdata('msg')){
                         if(data.errors){
                             $.each(data.errors, function(key, value){
                                 $('#'+key).addClass('is-invalid')
-                                $.notify(value, "danger");
+
+                                Swal.fire({
+        title: 'Terjadi kesalahan!',
+        text: value,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
                                 // $('#notifikasi_'+key).append(`<div class="invalid-feedback">`+value+`</div>`)
                             })
                         }else{
@@ -133,4 +142,5 @@ if($this->session->flashdata('msg')){
 
     </body>
 
-</html>
+
+    </html>

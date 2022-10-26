@@ -29,12 +29,15 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="contact-page-title">
-                            <h2>BUAT PENGADUAN</h2>
-                            <p class="text-18">Anda melihat atau mengetahui dugaan Pelanggaran yang dilakukan pegawai RSPAU dr. S. Hardjolukito. Silahkan melapor. Jika laporan anda memenuhi syarat/kriteria, maka akan diproses lebih lanjut.</p>
+                            <h3>BUAT PENGADUAN</h3>
+                            <p class="text-18">Berikut ini adalah formulir pengaduan aplikasi WBS RSPAU dr. S. Hardjolukito</p>
                         </div>
                     </div>
-                </div>
-                <form method="post" controller="<?=site_url('depan')?>" action="buat" id="myForm" enctype="multipart/form-data" accept-charset="utf-8">
+                <div class="col-12">
+            <div class="alert alert-primary kekanan" role="alert">
+                Anda melihat atau mengetahui dugaan Pelanggaran yang dilakukan pegawai RSPAU dr. S. Hardjolukito. Silahkan melapor. Jika laporan anda memenuhi syarat/kriteria, maka akan diproses lebih lanjut.
+            </div>
+                <form method="post" controller="<?=site_url('depan')?>" action="buat" id="myForm22" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="contact-form">
@@ -74,9 +77,15 @@
                           <textarea name="pengaduan_deskripsi" id="pengaduan_deskripsi" cols="10" rows="5" required="true" class="text" placeholder="Tulis aduan anda disini...."></textarea>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <!-- <div class="col-lg-12">
                         <div class="contact-form">
                         <input type="file" class="text" name="pengaduan_berkas[]" multiple="true" placeholder="Subjek Aduan" autocomplete="off" required="true">
+                        <span style="color: #373737;font-weight: 300;">.jpg .png .jpeg .zip .pdf</span>
+                        </div>
+                    </div> -->
+                    <div class="col-lg-12">
+                        <div class="contact-form">
+                        <input type="file" class="text" name="pengaduan_berkas" placeholder="Subjek Aduan" autocomplete="off" required="true">
                         <span style="color: #373737;font-weight: 300;">.jpg .png .jpeg .zip .pdf</span>
                         </div>
                     </div>
@@ -89,7 +98,8 @@
                     </div>
                     </form>
                 </div>
+                </div>
             </div>
         </section>
 
-<?php $this->load->view("_template/foot.php"); ?>    
+<?php $this->load->view("_template/foot.php"); ?>   

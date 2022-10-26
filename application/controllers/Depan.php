@@ -9,6 +9,7 @@ class Depan extends CI_Controller {
 		$this->load->helper(array('form', 'url','file','download'));
 		$this->load->model('m_dashboard');
 		$this->load->model('PengaduanModel', 'pengaduan');
+		$this->load->model('ResponModel', 'respon');
 		$this->load->library('email','upload','session','encrypt');
 	}
 
@@ -22,6 +23,69 @@ class Depan extends CI_Controller {
     $this->load->view('buat');	
 	}
 
+	public function detail()
+	{
+		$pengaduan_jenis = $this->session->userdata('pengaduan')['pengaduan_jenis'];
+		$pengaduan2 = [
+			'pengaduan_jenis_baca' => jenis_gen($pengaduan_jenis),
+		];
+
+		$data = [
+			'pengaduan2' => $pengaduan2,
+			'pengaduan' => $this->session->userdata('pengaduan'),
+		];
+		$this->load->view('detail', $data);
+	}
+
+	public function pantau($kode = null)
+	{
+		$data = [];
+		if($kode != null){
+			$data['pengaduan'] = $this->pengaduan->findByKode($kode);
+			$data['respon'] = $this->respon->findByPengaduan($data['pengaduan'][0]['pengaduan_id']);
+		}
+		$data['kode'] = $kode;
+		$this->load->view('pantau', $data);
+	}
+
+	public function statistik()
+	{
+		$data = [];
+		
+		// Diterima
+		$data['rec'][0][1] = $this->pengaduan->findStatistik(0, 1);
+		$data['rec'][0][2] = $this->pengaduan->findStatistik(0, 2);
+		$data['rec'][0][3] = $this->pengaduan->findStatistik(0, 3);
+		$data['rec'][0][4] = $this->pengaduan->findStatistik(0, 4);
+		$data['rec'][0][5] = $this->pengaduan->findStatistik(0, 5);
+		$data['rec'][0][6] = $this->pengaduan->findStatistik(0, 6);
+
+		// Ditolak
+		$data['rec'][9][1] = $this->pengaduan->findStatistik(9, 1);
+		$data['rec'][9][2] = $this->pengaduan->findStatistik(9, 2);
+		$data['rec'][9][3] = $this->pengaduan->findStatistik(9, 3);
+		$data['rec'][9][4] = $this->pengaduan->findStatistik(9, 4);
+		$data['rec'][9][5] = $this->pengaduan->findStatistik(9, 5);
+		$data['rec'][9][6] = $this->pengaduan->findStatistik(9, 6);
+
+		// Diproses
+		$data['rec'][1][1] = $this->pengaduan->findStatistik(1, 1);
+		$data['rec'][1][2] = $this->pengaduan->findStatistik(1, 2);
+		$data['rec'][1][3] = $this->pengaduan->findStatistik(1, 3);
+		$data['rec'][1][4] = $this->pengaduan->findStatistik(1, 4);
+		$data['rec'][1][5] = $this->pengaduan->findStatistik(1, 5);
+		$data['rec'][1][6] = $this->pengaduan->findStatistik(1, 6);
+
+		// Selesai
+		$data['rec'][2][1] = $this->pengaduan->findStatistik(2, 1);
+		$data['rec'][2][2] = $this->pengaduan->findStatistik(2, 2);
+		$data['rec'][2][3] = $this->pengaduan->findStatistik(2, 3);
+		$data['rec'][2][4] = $this->pengaduan->findStatistik(2, 4);
+		$data['rec'][2][5] = $this->pengaduan->findStatistik(2, 5);
+		$data['rec'][2][6] = $this->pengaduan->findStatistik(2, 6);
+		$this->load->view('statistik', $data);
+	}
+
 	function action($param = 'buat')
   {
     $post = $this->input->post(null, true);
@@ -33,9 +97,9 @@ class Depan extends CI_Controller {
 
       if($_FILES['pengaduan_berkas']){
 				for ($i=0; $i < count($_FILES['pengaduan_berkas']); $i++) {
-					$ukuran_file = $_FILES['pengaduan_berkas'][$i]['size']; 
+					$ukuran_file = $_FILES['pengaduan_berkas']['size']; 
 					if($ukuran_file <= 25000000){
-						$nama_file = $_FILES['pengaduan_berkas'][$i]['name'];
+						$nama_file = $_FILES['pengaduan_berkas']['name'];
 						$newName = $post['pengaduan_kode'].".".pathinfo($nama_file, PATHINFO_EXTENSION); 
 						$format = pathinfo($nama_file, PATHINFO_EXTENSION); 
 						if( ($format == "jpg") or ($format == "jpeg") or ($format == "png") or ($format == "JPG") or ($format == "JPEG") or ($format == "PNG")or ($format == "doc") or ($format == "pdf") or ($format == "zip") ){
@@ -77,11 +141,15 @@ class Depan extends CI_Controller {
 				}
       }
 
-      if($this->PengaduanModel->insert($post)){
+      if($this->pengaduan->insert($post)){
         $this->session->set_flashdata('msg', [1, "Data berhasil ditambahkan"]);
+        $userdata = [
+					'pengaduan' => $post
+				];
+				$this->session->set_userdata($userdata);
         $msg = [
           'status' => true, 
-          'url' => site_url("pengaduan")
+          'url' => site_url("detail")
         ];
       } else {
         $msg = [
@@ -91,7 +159,27 @@ class Depan extends CI_Controller {
           ]
         ];
       }
-    }
+    } else if($param == 'pantau'){
+			$kode = $post['pengaduan_kode'];
+			$post['respon_id'] = $this->db->query("SELECT NEWID() as id")->row()->id;
+      $post['respon_pengaduan_id'] = $this->pengaduan->findByKode($kode)[0]['pengaduan_id'];
+      $post['respon_waktu'] = date("Y-m-d H:i:s");
+			unset($post['pengaduan_kode']);
+			if($this->respon->insert($post)){
+        $this->session->set_flashdata('msg', [1, "Berhasil menambah respon"]);
+        $msg = [
+          'status' => true, 
+          'url' => site_url("pantau/" . $kode)
+        ];
+      } else {
+        $msg = [
+          'status' => false, 
+          'errors' => [
+            "pesan" => "data gagal ditambahkan"
+          ]
+        ];
+      }
+		}
 
     echo json_encode($msg);
   }
