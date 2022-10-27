@@ -137,4 +137,83 @@ class Pengaduan extends CI_Controller {
     }
   }
 
+
+    function change_status(){
+        $post = $this->input->post(null, true);
+        if(!$this->input->is_ajax_request()){
+            $msg = [
+                'status' => false,
+                'pesan'  => 'Permintaan anda tidak dapat diprosesss',
+                'url'    => base_url('pengaduan'),
+            ];
+
+            echo json_encode($msg); 
+            die();
+        }
+
+        $data = [
+            'pengaduan_status' => $post['val_status'],
+        ];
+        $query = $this->PengaduanModel->change_status($data, ['pengaduan_id'=>$post['pengaduan_id']]);
+        if($query){
+            $this->session->set_flashdata('success', 'Data Berhasil di Update');
+            $msg = [
+                'status' => true,
+                'pesan'  => 'Data Berhasil di Update',
+                'url'    => base_url('pengaduan'),
+            ];
+        }else{
+            $this->session->set_flashdata('danger', 'Gagal Update, Silahkan untuk coba kembali');
+            $msg = [
+                'status' => false,
+                'pesan'  => 'Gagal Update, Silahkan untuk coba kembali',
+                'url'    => base_url('pengaduan'),
+            ];
+        }
+        echo json_encode($msg); die(); 
+        // print_r("<pre>"); print($a); die();
+    }
+
+    function detail($id_pegaduan){
+        $record_head = $this->db->query("
+            SELECT * 
+            FROM wbs_pengaduan a
+            -- JOIN wbs_respon b ON a.pengaduan_id=b.respon_pengaduan_id
+            WHERE pengaduan_id = '$id_pegaduan'
+            ORDER BY pengaduan_waktu_buat DESC
+        ")->row();
+
+        $record_comment = $this->db->query("
+            SELECT * 
+            FROM wbs_respon a
+            -- JOIN wbs_respon b ON a.pengaduan_id=b.respon_pengaduan_id
+            WHERE respon_pengaduan_id = '$id_pegaduan'
+            ORDER BY respon_waktu ASC
+        ")->result();
+        
+        $post= $this->input->post(null, true);
+        if(isset($post['submit_comment'])){
+            $id_respon = $this->db->query("SELECT NEWID() as id")->row()->id;
+            $data_insert = [
+                'respon_id'             => $id_respon,
+                'respon_pengaduan_id'   => $id_pegaduan,
+                'respon_dari'           => 1,
+                'respon_komentar'       => $post['balas_comment'],
+                'respon_waktu'          => date('Y-m-d H:i:s'),
+            ];
+
+            $this->db->insert('wbs_respon', $data_insert);
+            redirect('pengaduan/detail/'.$id_pegaduan ,'refresh');
+        }
+
+        // print_r("<pre>"); print_r($record_comment); die();
+        $data = [
+            'title' => 'Detail Pengaduan',
+            'record_head' => $record_head,
+            'record_comment' => $record_comment,
+        ];
+        $this->load->view('admin/pengaduan/detail', $data);
+
+    }
+
 }

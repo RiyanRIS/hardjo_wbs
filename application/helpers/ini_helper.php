@@ -46,3 +46,18 @@ function status_gen($kode)
       return '<span class="badge badge-danger">Ditolak</span>';
   }
 }
+
+function tanggal_jam_indo($tanggal_sblm){
+  $tanggal = date("Y-m-j", strtotime($tanggal_sblm));
+
+  $bulan = array (1 =>   'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+  $split = explode('-', $tanggal);
+  return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0] . ', ' . date("G:i:s", strtotime($tanggal_sblm));
+}
+
+function indo_date($date){
+  $d = substr($date,8,2);
+  $m = substr($date,5,2);
+  $y = substr($date,0,4);
+  return $d.'-'.$m.'-'.$y;
+}
