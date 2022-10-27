@@ -96,7 +96,7 @@ class Depan extends CI_Controller {
       $post['pengaduan_waktu_buat'] = date("Y-m-d H:i:s");
 
       if($_FILES['pengaduan_berkas']){
-				for ($i=0; $i < count($_FILES['pengaduan_berkas']); $i++) {
+				// for ($i=0; $i < count($_FILES['pengaduan_berkas']); $i++) {
 					$ukuran_file = $_FILES['pengaduan_berkas']['size']; 
 					if($ukuran_file <= 25000000){
 						$nama_file = $_FILES['pengaduan_berkas']['name'];
@@ -138,7 +138,7 @@ class Depan extends CI_Controller {
 						];
 						echo json_encode($msg); die();
 					}
-				}
+				// }
       }
 
       if($this->pengaduan->insert($post)){
