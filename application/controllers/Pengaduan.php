@@ -14,7 +14,7 @@ class Pengaduan extends CI_Controller {
 	}
 
     function index(){
-        $limit = 1;
+        $limit = 20;
         if(@$_GET['page'] != "" || !empty($_GET['page'])) {
             $offset = ($_GET['page'] - 1) * $limit;
             $hal_aktif = $_GET['page'];

@@ -1,7 +1,7 @@
-<?php $this->load->view("user/_template/head");?>
+<?php $this->load->view("admin/_template/head");?>
 
-<?php $this->load->view("user/_template/atas");?>
-<?php $this->load->view("user/_template/nav");?>
+<?php $this->load->view("admin/_template/atas");?>
+<?php $this->load->view("admin/_template/nav");?>
 
 <div class="content-wrapper">
 
@@ -360,7 +360,7 @@
     </div>
 </div>
 
-<?php $this->load->view("user/_template/foot");?>
+<?php $this->load->view("admin/_template/foot");?>
   
 </body>
 </html>

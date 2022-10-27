@@ -28,16 +28,18 @@ class PengaduanModel extends CI_Model {
     function get_all($where = null, $limit = null, $offset = null){
 
         if(isset($_GET['pencarian'])){
-            $where = "AND pengaduan_kode LIKE '%$_GET[pencarian]%' ";
+            $where = "pengaduan_kode LIKE '%$_GET[pencarian]%' ";
         }
 
+        // print_r($limit."-".$offset); die();
+
         $string = " 
-            SELECT a.* 
-            FROM ( 
-                SELECT *, ROW_NUMBER() OVER (ORDER BY pengaduan_id) as row FROM wbs_pengaduan 
-            ) a
-            WHERE a.row >= 1 and a.row <= 1
-            ".@$where."
+            SELECT *
+            FROM wbs_pengaduan
+            WHERE ".@$where."
+            ORDER BY pengaduan_kode ASC
+            offset $offset rows 
+            fetch next $limit rows only
         ";
 
         // echo $string;

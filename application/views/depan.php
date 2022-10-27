@@ -3,7 +3,9 @@
 <?php $this->load->view("_template/atas.php"); ?>    
 
 <div class="banner">
-    <img src="assets/img/banner/1.jpg" alt="WBS RSPAU dr. S. Hardjolukito">
+    <a href="<?=site_url('buat')?>">
+        <img src="assets/img/banner/1.jpg" alt="WBS RSPAU dr. S. Hardjolukito">
+    </a>
 </div>
 
        <?php $this->load->view("bagian/selamatdatang")?>

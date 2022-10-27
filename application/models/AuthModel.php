@@ -37,6 +37,12 @@ class AuthModel extends CI_Model {
     }
   }
 
+  function update_last_login($data, $id){
+    $this->db->set($data);
+    $this->db->where('username', $id);
+    return $this->db->update('wbs_admin');
+  }
+
 
   public function getError()
   {
