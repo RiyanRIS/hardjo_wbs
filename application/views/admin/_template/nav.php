@@ -10,16 +10,18 @@
         <li class="nav-item">
             <a href="<?=site_url('pengaduan')?>" class="nav-link <?=is_active(["List Pengaduan", "Buat Pengaduan"], $title)?>">
                 <i class="nav-icon fa fa-file"></i>
-                <p>Pengaduan Saya</p>
+                <p>Pengaduan</p>
             </a>
         </li>
 
+        <?php if($this->session->userdata('role_admin') == 1){ ?>
         <li class="nav-item">
-            <a href="<?=site_url('admin/akun')?>" class="nav-link <?=is_active("Pengaturan Akun", $title)?>">
+            <a href="<?=site_url('admin/akun')?>" class="nav-link <?=is_active("Akun", $title)?>">
                 <i class="nav-icon fa fa-cog"></i>
                 <p>Pengaturan Akun</p>
             </a>
         </li>
+        <?php } ?>
 
         <li class="nav-item">
             <a href="<?=site_url('auth/logout')?>" class="nav-link">

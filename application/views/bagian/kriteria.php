@@ -18,7 +18,7 @@
                                     <h5><a href="#">WHAT</a></h5>
                                 </div>
                                 <p class="text-16">
-                                  apa perbuatan berindikasi Tindak Pidana Korupsi/pelanggaran yang diketahui
+                                  Apa perbuatan berindikasi Tindak Pidana Korupsi/pelanggaran yang diketahui
                                 </p>
                                 
                             </div>
@@ -31,7 +31,7 @@
                                     <h5><a href="#">WHEN</a></h5>
                                 </div>
                                 <p class="text-16">
-                                  kapan waktu perbuatan tersebut dilakukan
+                                  Kapan waktu perbuatan tersebut dilakukan
                                 </p>
                                 
                             </div>
@@ -44,7 +44,7 @@
                                     <h5><a href="#">WHO</a></h5>
                                 </div>
                                 <p class="text-16">
-                                siapa yang bertanggungjawab/terlibat dan terkait dalam perbuatan tersebut
+                                Siapa yang bertanggungjawab/terlibat dan terkait dalam perbuatan tersebut
                                 </p>
                                 
                             </div>
@@ -70,7 +70,7 @@
                                     <h5><a href="#">WHERE</a></h5>
                                 </div>
                                 <p class="text-16">
-                                dimana tempat terjadinya perbuatan tersebut dilakukan
+                                Dimana tempat terjadinya perbuatan tersebut dilakukan
                                 </p>
                                 
                             </div>

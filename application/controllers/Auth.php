@@ -35,10 +35,13 @@ class Auth extends CI_Controller {
                 redirect(site_url('admin'),'refresh');
             }
 
-            // print_r("<pre>");print_r($anggota); die();
+            $this->updateLastLogin($username);
+
             $data = [
                 'id_admin'      => $anggota->id,
                 'username'      => $anggota->username,
+                'nama_admin'      => $anggota->nama,
+                'role_admin'      => $anggota->role,
                 'isLogin'       => true,
                 'isAdmin'       => true,
             ];
@@ -51,6 +54,14 @@ class Auth extends CI_Controller {
         $this->load->view('auth/admin');
 
 	}
+
+  function updateLastLogin($username)
+  {
+    $post = [
+      'lastlogin' => date("Y-m-d H:i:s"),
+    ];
+    return $this->AuthModel->update_last_login($post, $username);
+  }
 
     public function registrasi()
 	   {
@@ -65,7 +76,7 @@ class Auth extends CI_Controller {
     ];
     $this->session->set_userdata($set_sesion);
     $this->session->set_flashdata(['msg' => [1, "Proses logout berhasil"]]);
-    redirect(site_url('auth/login'), 'refresh');
+    redirect(site_url('auth/admin'), 'refresh');
   }
 
   function action($param = 'login')
