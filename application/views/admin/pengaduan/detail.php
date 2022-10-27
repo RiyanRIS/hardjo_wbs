@@ -138,11 +138,11 @@
                                 <h4>Status Pengaduan</h4>
                                 <p style="border-bottom: 1px solid #5298db;">
                                     <?=status_gen($record_head->pengaduan_status)?>
-                                    <span type="button" class="goto_comment">
+                                    <!-- <span type="button" class="goto_comment">
                                         <i class="fa fa-comments" style="margin-top: 10px; margin-left: 10px;"></i>
-                                        <!-- <span class='badge badge-warning' id='lblCartCount'> 1 </span> -->
+                                        <span class='badge badge-warning' id='lblCartCount'> 1 </span>
                                         <span style="font-size: 15px">14 Coment</span>
-                                    </span>
+                                    </span> -->
                                 </p>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                                 File Upload Oleh User
                             </span>
 
-                            
+
 
                         </div>
 
@@ -399,10 +399,13 @@
                                         </li>
                                         <?php endif ?>
                                     <?php } ?>
+                                    
+                                    <?php goto bottom; ?>
                                 </ul>
                             <?php else: ?>
                                 <center>Tidak Ada Comment</center>
                             <?php endif; ?>
+                            <?php bottom: ?>
                         </div> <!-- end chat-history -->
       
                         <form action="<?=base_url('pengaduan/detail/'.@$this->uri->segment(3))?>" method="post" accept-charset="utf-8">

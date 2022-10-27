@@ -61,3 +61,43 @@ function indo_date($date){
   $y = substr($date,0,4);
   return $d.'-'.$m.'-'.$y;
 }
+
+function pagination($jml_halaman, $hal_aktif, $link_paginaton){
+    //PREV BUTTON
+   
+      if ((int)$hal_aktif == "1") {
+        $html = '<li class="page-item"><a disabled class="page-link" data-abc="true"><i class="fa fa-angle-left"></i></a></li>';
+      }else{
+        $html = '<li class="page-item"><a class="page-link" href="'.$link_paginaton.'&page='. ($hal_aktif-1).'" data-abc="true"><i class="fa fa-angle-left"></i></a></li>';
+      }
+       
+      //PAGE PREV 
+      if ((int)$hal_aktif > 1){
+        for ($i=(int)$hal_aktif-2; $i < (int)$hal_aktif; $i++) { 
+          if ((int)$i < (int)$hal_aktif && (int)$i > 0) {
+          $html = @$html.'<li class="page-item"><a class="page-link" href="'.$link_paginaton.'&page='.$i.'" data-abc="true">'.$i.'</a></li>';
+          }
+        }
+      } 
+       
+      //PAGE ACTIVE
+      $html = @$html.'<li class="page-item active"><a href="javascript:void(0)" disabled class="page-link">'.$hal_aktif.'</a></li>';
+
+      //PAGE NEXT    
+      if ((int)$hal_aktif < (int)$jml_halaman){
+        for ($i= (int)$hal_aktif+1; $i < (int)$hal_aktif+3; $i++) { 
+          if ($i > (int)$hal_aktif && $i <= (int)$jml_halaman) {
+            $html = @$html.'<li class="page-item"><a class="page-link" href="'.$link_paginaton.'&page='.$i.'" data-abc="true">'.$i.'</a></li>';
+          }
+        }
+      } 
+      
+      //NEXT BUTTON
+      if ( (int)$hal_aktif == (int)$jml_halaman){
+        $html = @$html.'<li class="page-item"><a disabled class="page-link" data-abc="true"><i class="fa fa-angle-right"></i></a></li>';
+      }else{
+        $html = @$html.'<li class="page-item"><a class="page-link" href="'.$link_paginaton.'&page='.($hal_aktif+1).'" data-abc="true"><i class="fa fa-angle-right"></i></a></li>';
+      }
+
+      return $html;
+    }

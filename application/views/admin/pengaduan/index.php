@@ -107,11 +107,11 @@
     <div class="row">
         <div class="col-12">
             <div class="form" style="padding: 10px 0; width: 30%; float: right;">
-                <form action="index_submit" method="get" accept-charset="utf-8">
+                <form action="<?=base_url('pengaduan')?>" method="get" accept-charset="utf-8">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Pencarian Kode" aria-describedby="button-addon1">
+                        <input type="text" name="pencarian" value="<?=@$_GET['pencarian']?>" class="form-control" placeholder="Pencarian Kode" aria-describedby="button-addon1">
                         <div class="input-group-prepend">
-                            <button class="btn" type="button" id="button-addon1" style="border-radius: 0 10px 10px 0; background-color: #5298db;">Cari</button>
+                            <button class="btn" type="submit" id="button-addon1" style="border-radius: 0 10px 10px 0; background-color: #5298db;">Cari</button>
                         </div>
                     </div>
                 </form>
@@ -181,11 +181,11 @@
                                             margin-left: -10px; 
                                         }
                                     </style>
-                                    <div class="comment">
+                                    <!-- <div class="comment">
                                         <i class="fa fa-comments" style="margin-top: 10px"></i>
                                         <span class='badge badge-warning' id='lblCartCount'> 1 </span>
                                         <span style="font-size: 15px">14 Coment</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -226,7 +226,17 @@
                 </div>
             </div>
         <?php } ?>
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination " style="float: right !important;">
+                        <?= pagination($jumlah_hal, $hal_aktif, base_url('pengaduan?pencarian='.@$_GET['pencarian'])); ?>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     <?php else: ?>
+        <center>Data tidak ditemukan</center>
     <?php endif; ?>
 </section>
 

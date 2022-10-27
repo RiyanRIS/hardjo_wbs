@@ -25,10 +25,29 @@ class PengaduanModel extends CI_Model {
   }
 
 
-    function get_all(){
-        $string = "SELECT * FROM wbs_pengaduan";
-        $record = $this->db->query($string);
-        return $record;
+    function get_all($where = null, $limit = null, $offset = null){
+
+        if(isset($_GET['pencarian'])){
+            $where = "AND pengaduan_kode LIKE '%$_GET[pencarian]%' ";
+        }
+
+        $string = " 
+            SELECT a.* 
+            FROM ( 
+                SELECT *, ROW_NUMBER() OVER (ORDER BY pengaduan_id) as row FROM wbs_pengaduan 
+            ) a
+            WHERE a.row >= 1 and a.row <= 1
+            ".@$where."
+        ";
+
+        // echo $string;
+        $record = $this->db->query($string)->result();
+        $count_row = $this->db->query("
+            SELECT COUNT(*) as total 
+            FROM wbs_pengaduan  
+            WHERE pengaduan_kode LIKE '%".@$_GET[pencarian]."%'
+        ")->row()->total;
+        return ['record'=>$record, 'count_row'=>$count_row];
     }
 
   public function findByUser($id)

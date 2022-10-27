@@ -14,20 +14,24 @@ class Pengaduan extends CI_Controller {
 	}
 
     function index(){
+        $limit = 1;
         if(@$_GET['page'] != "" || !empty($_GET['page'])) {
-            $offset = ($_GET['page'] - 1) * $SConfig->_admin_perpage;
+            $offset = ($_GET['page'] - 1) * $limit;
             $hal_aktif = $_GET['page'];
         }else{
             $offset     = 0;
             $hal_aktif = 1;
         }
 
+        // print_r("<pre>"); print_r($offset); die();
 
-        $record = $this->PengaduanModel->get_all()->result();
-        // print_r("<pre>"); print_r($record); die();
+        $record = $this->PengaduanModel->get_all(@$where, $limit, $offset);
+        $jumlah_hal = ceil($record['count_row']/$limit);
 		$data = [
 			'title'  => "List Pengaduan",
-            "record" => $record
+            "record" => $record['record'],
+            "jumlah_hal" => $jumlah_hal,
+            "hal_aktif" => $hal_aktif,
 		];
 		$this->load->view('admin/pengaduan/index', $data);
     }
