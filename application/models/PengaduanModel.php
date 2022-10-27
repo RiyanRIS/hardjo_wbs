@@ -28,7 +28,7 @@ class PengaduanModel extends CI_Model {
     function get_all($where = null, $limit = null, $offset = null){
 
         if(isset($_GET['pencarian'])){
-            $where = "pengaduan_kode LIKE '%$_GET[pencarian]%' ";
+            $where = "WHERE pengaduan_kode LIKE '%$_GET[pencarian]%' ";
         }
 
         // print_r($limit."-".$offset); die();
@@ -36,7 +36,7 @@ class PengaduanModel extends CI_Model {
         $string = " 
             SELECT *
             FROM wbs_pengaduan
-            WHERE ".@$where."
+            ".@$where."
             ORDER BY pengaduan_kode ASC
             offset $offset rows 
             fetch next $limit rows only
